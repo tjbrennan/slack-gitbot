@@ -1,0 +1,14 @@
+{
+  "github" : {
+    "token" : "",
+    "username" : "",
+    "teams" : [
+      {
+        "name" : "",
+        "owner" : "",
+        "repos" : [],
+        "contributors" : []
+      }
+    ]
+  }
+}
