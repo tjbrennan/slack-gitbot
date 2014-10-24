@@ -17,23 +17,12 @@ app.use(bodyParser.urlencoded({
 
 // ensure only authorized slack users may see results
 app.use(function (req, res, next) {
-  if (req.body.token !== config.slack.incomingWebhook) {
+  if (req.body.token !== config.slack.outgoingWebhook) {
     return next(new Error('Unauthorized.'));
   }
 
   next();
 });
-
-// store args
-app.use(function (req, res, next) {
-  if (config.slack.incomingWebhook.length) {
-    res.locals.slackTokens = config.slack.incomingWebhook;
-  } else {
-    res.locals.slackTokens = null;
-  }
-
-  next();
-})
 
 // error handler
 app.use(function (err, req, res, next) {
