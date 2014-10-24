@@ -2,6 +2,7 @@ var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 var gitbot = require('./lib/gitbot');
+var config = require('./lib/config');
 
 
 var app = express();
@@ -15,16 +16,24 @@ app.use(bodyParser.urlencoded({
 
 
 // ensure only authorized slack users may see results
-// app.use(function (req, res, next) {
-//   next();
-// });
+app.use(function (req, res, next) {
+  if (req.body.token !== config.slack.incomingWebhook) {
+    return next(new Error('Unauthorized.'));
+  }
+
+  next();
+});
 
 // store args
-// app.use(function (req, res, next) {
-//   res.locals.slackTeam = args[2];
-//   res.locals.slackTtoken = args[3];
-//   next();
-// })
+app.use(function (req, res, next) {
+  if (config.slack.incomingWebhook.length) {
+    res.locals.slackTokens = config.slack.incomingWebhook;
+  } else {
+    res.locals.slackTokens = null;
+  }
+
+  next();
+})
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -37,7 +46,7 @@ app.use(function (err, req, res, next) {
 });
 
 
-app.post('/gitbot', gitbot, function (req, res) { res.status(200).end(); });
+app.post('/gitbot', gitbot);
 
 
 app.listen(port, function () {

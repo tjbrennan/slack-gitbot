@@ -1,4 +1,12 @@
 {
+  "slack" : {
+    "bot" : {
+      "username" : "gitbot",
+      "icon_emoji" : ":octocat:"
+    },
+    "incomingWebhook" : [],
+    "outgoingWebhook" : ""
+  },
   "github" : {
     "token" : "",
     "username" : "",
@@ -7,7 +15,8 @@
         "name" : "",
         "owner" : "",
         "repos" : [],
-        "contributors" : []
+        "contributors": [],
+        "color" : ""
       }
     ]
   }
